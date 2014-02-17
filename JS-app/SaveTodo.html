@@ -1,0 +1,58 @@
+<html>
+<script src="http://api.backendless.com/sdk/js/latest/backendless.js"></script>
+<script>
+
+function Todo(args) {
+    args = args || {};
+    this.subject = args.subject || "";
+    this.description = args.description || "";
+    this.startDate = args.startDate || "";
+    this.dueDate = args.dueDate || "";
+    this.priority = args.priority;
+    this.sensitivity = args.sensitivity;
+    this.status = args.status;
+
+}
+
+function saveObject()
+{
+  var APPLICATION_ID = '****** REPLACE WITH YOUR APP ID *************',
+      SECRET_KEY = '********** REPLACE WITH YOUR JS SECRET KEY ************',
+      VERSION = 'v1'; 
+
+  document.getElementById( "status" ).innerHTML = "Saving object…"
+
+  /*****************************************************
+   init Backendless app
+  *****************************************************/
+  Backendless.initApp(APPLICATION_ID, SECRET_KEY, VERSION);
+
+  /*****************************************************
+   obtain data storage for the Todo objects
+  *****************************************************/
+  var dataStore = Backendless.Persistence.of( Todo );
+
+  /*****************************************************
+   create new instance of Todo
+  *****************************************************/
+  var todoObject = new Todo( { subject: "Buy new computer", 
+  			        description: "Check online for deals", 
+                                startDate:new Date(),
+				dueDate: new Date(new Date().getTime() + 10*24*60*60*1000),
+				priority:0,
+				sensitivity:0,
+				status:0 } );  
+
+  /*****************************************************
+   save Todo object
+  *****************************************************/
+  dataStore.save( todoObject );
+
+  document.getElementById( "status" ).innerHTML = "Object saved!"
+}
+</script>
+<body>
+<a href="javascript:saveObject()">click to save Todo object</a>
+<div id="status" style="font-size:24px"></div>
+</body>
+</html>
